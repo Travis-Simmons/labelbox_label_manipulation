@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Author : Emmanuel Gonzalez
-Date   : 2022-02-10
-Purpose: RGB indices extraction
+Author : Travis Simmons
+Date   : 2022-03-14
+Purpose: Replace labels in labelbox export
 """
 
 import argparse
@@ -60,7 +60,7 @@ def main():
 
     args = get_args()
 
-    input_filename = args.input_filename
+    input_filename = args.input_json
     ol_list = args.original_labels
     rl_list = args.replacement_labels
     output_filename = args.output_filename
@@ -87,23 +87,25 @@ def main():
         data = json.load(f)
 
     for index, i in enumerate(data):
+        try:
+            # print(data[index].keys())
+            labels = data[index]['Label']['objects']
 
-        # print(data[index].keys())
-        labels = data[index]['Label']['objects']
+            for lab_num, i in enumerate(labels):
 
-        for lab_num, i in enumerate(labels):
+                # lookup old label, if it is not one you want to replace, then skip it
+                old_label = data[index]['Label']['objects'][lab_num]['title']
+                try:
+                    new_label = r_dict[old_label]
 
-            # lookup old label, if it is not one you want to replace, then skip it
-            old_label = data[index]['Label']['objects'][lab_num]['title']
-            try:
-                new_label = r_dict[old_label]
-
-                # repalce the label
-                data[index]['Label']['objects'][lab_num]['title'] = new_label
-                data[index]['Label']['objects'][lab_num]['value'] = new_label
-            except:
-                pass
-
+                    # repalce the label
+                    data[index]['Label']['objects'][lab_num]['title'] = new_label
+                    data[index]['Label']['objects'][lab_num]['value'] = new_label
+                except:
+                    pass
+        except:
+            print('Finished.')
+            break
 
 
     with open(output_filename, 'w') as f:
