@@ -31,6 +31,8 @@ Finished, output named: name_switch.json
 Removed 1130 labels, leaving 869 total.
 
 
+
+
 python3 labeler_selection.py -i /home/travis/repos/labelbox_label_manipulation/export-2022-03-14T15_05_28.986Z.json -kl labeler1@email.com -of name_switch.json
 
 Removing all labels not created by: ['labler1@email.com']
@@ -38,6 +40,8 @@ Removing all labels not created by: ['labler1@email.com']
 Finished, output named: name_switch.json
 
 Removed 896 labels, leaving 1130 total.
+
+
 
 
 python3 labeler_selection.py -i /home/travis/repos/labelbox_label_manipulation/export-2022-03-14T15_05_28.986Z.json -kl labeler1@email.com labeler2@email.com -of name_switch.json
